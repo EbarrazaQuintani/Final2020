@@ -20,3 +20,6 @@ FinalData <- OldData %>% mutate(infected = recode(infected, aids = "covid", none
 
 A new  preventative vaccine (covid91) is under test in clinical trials. Given the nature of this vaccine it is suspected that the drug may exhibit different effectiveness across the variety of subpopulations tracked. Consider population subgroups by gender( guys and gals), drug use, and sexual orientation. Write a complete report that separately considers this drug for each subgroup and your recommendations as to whether people in the subgroup should take the vaccine. Structure your report in four sections each devoted to one of the four subgroups, use null and alternative hypothesis statements and correct statistical verbage when referencing p-values in conclusions.
 
+# Overall Approach
+To understand this, we must know if there is a placebo in place, if not then we can take that out first. If there is a placebo than we can compare it to those who had actually taken the drug. A barchart would be a great visual. Looking at the data in their environment tab, there is a placebo for the old data which means we must compare the old data with the placebo. The FinalData will be comared to those who had covid and took the drug compared to those who had covid and didn't take the drug.
+
