@@ -1,6 +1,6 @@
 ---
 title: "Covid91 vaccine study Final2021"
-author: Erick Barraza!"
+author: Erick Barraza"
 date: "Summer 2021"
 output: 
     html_document:
@@ -23,14 +23,12 @@ gals = filter(FinalData, sex == "gal")
 gay = filter(FinalData, LGBTQ == "gay")
 DrugUser = filter(FinalData, DrugUser == "yes")
 ```
-
 ```{r }
 # this is the slick way
 FinalData= select(FinalData, ! is.numeric)
 FinalData=purrr::map(FinalData, as.factor)
 FinalData = data.frame(FinalData)
 ```
-
 ```{r}
 #FinalData$treatment <- relevel(FinalData$treatment,ref="placebo")
 FinalData$infected <- relevel(FinalData$infected,ref="OK")
@@ -41,9 +39,11 @@ FinalData$infected <- relevel(FinalData$infected,ref="OK")
 A new  preventative vaccine (covid91) is under test in clinical trials. Given the nature of this vaccine it is suspected that the drug may exhibit different effectiveness across the variety of subpopulations tracked. Consider population subgroups by gender( guys and gals), drug use, and sexual orientation. Write a complete report that separately considers this drug for each subgroup and your recommendations as to whether people in the subgroup should take the vaccine. Structure your report in four sections each devoted to one of the four subgroups, use null and alternative hypothesis statements and correct statistical verbage when referencing p-values in conclusions.
 
 # Overall Approach
+  
 To understand this, we must know if there is a placebo in place, if not then we can take that out first. If there is a placebo than we can compare it to those who had actually taken the drug. A barchart would be a great visual. Looking at the data in their environment tab, there is a placebo for the old data which means we must compare the old data with the placebo. The FinalData will be compared to those who had covid and took the drug compared to those who had covid and didn't take the drug.Then we can use the 95% interval in order to make sure out stats and numbers are correct.
 
 # Gals
+  
 
 ```{r}
 GalsData <-filter(FinalData, sex == "gal")
@@ -69,21 +69,121 @@ basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment))
 basicCC + geom_bar(stat="identity", position = "dodge")
 ```
 
+## Numerical Results 
+  
+```{r}
+table1 <- xtabs(~treatment + infected, data=GalsData)
+rowPerc(table1)
+colPerc(table1)
+```
+  
+##Inferntial
 
-#Guys
+
+# Guys
+
+```{r}
+GuysData <-filter(FinalData, sex == "guy")
+GuysData$sex <- as.factor(GuysData$sex)
+GuysData$treatment <- as.factor(GuysData$treatment)
+
+#GuysData$infected <- relevel(GuysData$infected,ref ="OK")
+GuysData$treatment <-relevel(GuysData$treatment,ref="placebo")
+```
+
+```{r}
+dd2 <- GuysData %>% group_by(infected,treatment) %>% summarize(count=n()) %>% mutate(prcnt=count/sum(count))
 
 
+# the group_by followed by summarize(count=n())
 
-#Drug Users
+basicC <- ggplot(dd2,aes(x=treatment,y=count,fill=infected))
+basicC + geom_bar(stat="identity",position="dodge")
 
+#Now for percentage plot
 
+basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment)) 
+basicCC + geom_bar(stat="identity", position = "dodge")
+```
 
+## Numerical Results
+```{r}
+table1 <- xtabs(~treatment + infected, data=GuysData)
+rowPerc(table1)
+colPerc(table1)
+```
 
 # LGBTQ
 
 ```{r}
-LGBTQData <- filter(FinalData, LGBTQ == "gay" )
+GayData <-filter(FinalData, LGBTQ == "gay")
+GayData$sex <- as.factor(GayData$sex)
+GayData$treatment <- as.factor(GayData$treatment)
 
+#GayData$infected <- relevel(GayData$infected,ref ="OK")
+GayData$treatment <-relevel(GayData$treatment,ref="placebo")
 ```
+
+```{r}
+dd2 <- GayData %>% group_by(infected,treatment) %>% summarize(count=n()) %>% mutate(prcnt=count/sum(count))
+
+
+# the group_by followed by summarize(count=n())
+
+basicC <- ggplot(dd2,aes(x=treatment,y=count,fill=infected))
+basicC + geom_bar(stat="identity",position="dodge")
+
+#Now for percentage plot
+
+basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment)) 
+basicCC + geom_bar(stat="identity", position = "dodge")
+```
+
+### Numerical
+
+
+```{r}
+table1 <- xtabs(~treatment + infected, data=GayData)
+rowPerc(table1)
+colPerc(table1)
+```
+
+
+###Inferntial
+
+# DrugUsers
+
+
+```{r}
+DrugUserData <-filter(FinalData, DrugUser == "yes")
+DrugUserData$sex <- as.factor(DrugUserData$sex)
+DrugUserData$treatment <- as.factor(DrugUserData$treatment)
+
+#DrugUserData$infected <- relevelDrugUserData$infected,ref ="OK")
+DrugUserData$treatment <-relevel(DrugUserData$treatment,ref="placebo")
+```
+
+```{r}
+dd2 <- DrugUserData %>% group_by(infected,treatment) %>% summarize(count=n()) %>% mutate(prcnt=count/sum(count))
+
+
+# the group_by followed by summarize(count=n())
+
+basicC <- ggplot(dd2,aes(x=treatment,y=count,fill=infected))
+basicC + geom_bar(stat="identity",position="dodge")
+
+#Now for percentage plot
+
+basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment)) 
+basicCC + geom_bar(stat="identity", position = "dodge")
+```
+
+## Numerical Results
+```{r}
+table1 <- xtabs(~treatment + infected, data=Dru)
+rowPerc(table1)
+colPerc(table1)
+```
+
 
 
