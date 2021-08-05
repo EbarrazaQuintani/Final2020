@@ -42,7 +42,7 @@ A new  preventative vaccine (covid91) is under test in clinical trials. Given th
   
 To understand this, we must know if there is a placebo in place, if not then we can take that out first. If there is a placebo than we can compare it to those who had actually taken the drug. A barchart would be a great visual. Looking at the data in their environment tab, there is a placebo for the old data which means we must compare the old data with the placebo. The FinalData will be compared to those who had covid and took the drug compared to those who had covid and didn't take the drug.Then we can use the 95% interval in order to make sure out stats and numbers are correct.
 
-# Gals
+## Gals
   
 
 ```{r}
@@ -69,7 +69,7 @@ basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment))
 basicCC + geom_bar(stat="identity", position = "dodge")
 ```
 
-## Numerical Results 
+### Numerical Results 
   
 ```{r}
 table1 <- xtabs(~treatment + infected, data=GalsData)
@@ -77,10 +77,15 @@ rowPerc(table1)
 colPerc(table1)
 ```
   
-##Inferntial
+### Inferntial
 
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+fisher.test(table1)
+```
 
-# Guys
+## Guys
 
 ```{r}
 GuysData <-filter(FinalData, sex == "guy")
@@ -106,14 +111,24 @@ basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment))
 basicCC + geom_bar(stat="identity", position = "dodge")
 ```
 
-## Numerical Results
+### Numerical Results
+  
 ```{r}
 table1 <- xtabs(~treatment + infected, data=GuysData)
 rowPerc(table1)
 colPerc(table1)
 ```
 
-# LGBTQ
+### Inferntial
+ 
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+fisher.test(table1)
+```  
+  
+
+## LGBTQ
 
 ```{r}
 GayData <-filter(FinalData, LGBTQ == "gay")
@@ -139,8 +154,8 @@ basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment))
 basicCC + geom_bar(stat="identity", position = "dodge")
 ```
 
-### Numerical
-
+### Numerical  
+  
 
 ```{r}
 table1 <- xtabs(~treatment + infected, data=GayData)
@@ -149,9 +164,15 @@ colPerc(table1)
 ```
 
 
-###Inferntial
+### Inferntial
+  
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+fisher.test(table1)
+```  
 
-# DrugUsers
+## DrugUsers
 
 
 ```{r}
@@ -178,12 +199,18 @@ basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment))
 basicCC + geom_bar(stat="identity", position = "dodge")
 ```
 
-## Numerical Results
+### Numerical Results
+  
 ```{r}
-table1 <- xtabs(~treatment + infected, data=Dru)
+table1 <- xtabs(~treatment + infected, data=DrugUserData)
 rowPerc(table1)
 colPerc(table1)
 ```
 
+### Inferntial
 
-
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+fisher.test(table1)
+```
