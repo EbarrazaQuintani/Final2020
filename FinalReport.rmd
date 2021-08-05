@@ -13,7 +13,27 @@ require(tigerstats)
 require(forcats)
 OldData <-read.csv(file="covid91.csv",header=TRUE)
 #recode to remove the annoying "X" from the dataframe
-FinalData <- OldData %>% mutate(infected = recode(infected, aids = "covid", none = "OK" )) %>% select(-one_of("X"))
+FinalData <- OldData %>%  mutate(infected = recode(infected, aids = "covid", none = "OK")) %>% select(-one_of("X"))
+FinalData<- FinalData %>%
+mutate(across(where(is.character), as.factor))  
+#FinalData$treatment <- relevel(FinalData$treatment,ref="placebo")
+FinalData$infected <- relevel(FinalData$infected,ref="OK")
+guy = filter(FinalData, sex == "guy")
+gals = filter(FinalData, sex == "gal")
+gay = filter(FinalData, LGBTQ == "gay")
+DrugUser = filter(FinalData, DrugUser == "yes")
+```
+
+```{r }
+# this is the slick way
+FinalData= select(FinalData, ! is.numeric)
+FinalData=purrr::map(FinalData, as.factor)
+FinalData = data.frame(FinalData)
+```
+
+```{r}
+#FinalData$treatment <- relevel(FinalData$treatment,ref="placebo")
+FinalData$infected <- relevel(FinalData$infected,ref="OK")
 ```
 
 # Introduction
@@ -23,17 +43,47 @@ A new  preventative vaccine (covid91) is under test in clinical trials. Given th
 # Overall Approach
 To understand this, we must know if there is a placebo in place, if not then we can take that out first. If there is a placebo than we can compare it to those who had actually taken the drug. A barchart would be a great visual. Looking at the data in their environment tab, there is a placebo for the old data which means we must compare the old data with the placebo. The FinalData will be compared to those who had covid and took the drug compared to those who had covid and didn't take the drug.Then we can use the 95% interval in order to make sure out stats and numbers are correct.
 
-# Females
+# Gals
+
+```{r}
+GalsData <-filter(FinalData, sex == "gal")
+GalsData$sex <- as.factor(GalsData$sex)
+GalsData$treatment <- as.factor(GalsData$treatment)
+
+#GalsData$infected <- relevel(GalsData$infected,ref ="OK")
+GalsData$treatment <-relevel(GalsData$treatment,ref="placebo")
+```
+
+```{r}
+dd2 <- GalsData %>% group_by(infected,treatment) %>% summarize(count=n()) %>% mutate(prcnt=count/sum(count))
 
 
+# the group_by followed by summarize(count=n())
+
+basicC <- ggplot(dd2,aes(x=treatment,y=count,fill=infected))
+basicC + geom_bar(stat="identity",position="dodge")
+
+#Now for percentage plot
+
+basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment)) 
+basicCC + geom_bar(stat="identity", position = "dodge")
+```
 
 
-#Males
+#Guys
 
 
 
 #Drug Users
 
 
+
+
 # LGBTQ
+
+```{r}
+LGBTQData <- filter(FinalData, LGBTQ == "gay" )
+
+```
+
 
