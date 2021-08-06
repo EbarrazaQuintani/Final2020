@@ -82,8 +82,24 @@ colPerc(table1)
 ```{r}
 chisq.test(table1)
 chisqtestGC(table1)
-fisher.test(table1)
+galfish <- fisher.test(table1)
+galfish
 ```
+
+
+```{r}
+Effect<- galfish$p.value/(galfish$p.value+1)
+Effectivenessgal <- galfish$estimate/(galfish$estimate +1)
+print(Effectivenessgal*100)
+```
+
+```{r}
+low=(galfish$conf.int[1]/(galfish$conf.int[1]+1))
+hi=galfish$conf.int[2]/(galfish$conf.int[2] +1)
+options(digits=2)
+```
+
+
 
 ## Guys
 
@@ -124,9 +140,21 @@ colPerc(table1)
 ```{r}
 chisq.test(table1)
 chisqtestGC(table1)
-fisher.test(table1)
+guyfish <- fisher.test(table1)
+guyfish
 ```  
-  
+ 
+```{r}
+Effect<-guyfish$p.value/(guyfish$p.value+1)
+Effectivenessguy <- guyfish$estimate/(guyfish$estimate +1)
+print(Effectivenessguy*100)
+```
+
+```{r}
+low=(guyfish$conf.int[1]/(guyfish$conf.int[1]+1))
+hi=guyfish$conf.int[2]/(guyfish$conf.int[2] +1)
+options(digits=2)
+```  
 
 ## LGBTQ
 
@@ -169,7 +197,21 @@ colPerc(table1)
 ```{r}
 chisq.test(table1)
 chisqtestGC(table1)
-fisher.test(table1)
+gayfish <- fisher.test(table1)
+gayfish
+```  
+
+ 
+```{r}
+Effect<-gayfish$p.value/(gayfish$p.value+1)
+Effectivenessgay <- gayfish$estimate/(gayfish$estimate +1)
+print(Effectivenessgay*100)
+```
+
+```{r}
+low=(guyfish$conf.int[1]/(guyfish$conf.int[1]+1))
+hi=guyfish$conf.int[2]/(guyfish$conf.int[2] +1)
+options(digits=2)
 ```  
 
 ## DrugUsers
@@ -212,5 +254,19 @@ colPerc(table1)
 ```{r}
 chisq.test(table1)
 chisqtestGC(table1)
-fisher.test(table1)
+drugfish <- fisher.test(table1)
+drugfish
 ```
+
+ 
+```{r}
+Effect<-drugfish$p.value/(drugfish$p.value+1)
+Effectivenessyes <- drugfish$estimate/(drugfish$estimate +1)
+print(Effectivenessyes*100)
+```
+
+```{r}
+low=(drugfish$conf.int[1]/(drugfish$conf.int[1]+1))
+hi=drugfish$conf.int[2]/(drugfish$conf.int[2] +1)
+options(digits=2)
+```  
