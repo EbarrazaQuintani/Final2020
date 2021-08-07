@@ -69,6 +69,9 @@ basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment))
 basicCC + geom_bar(stat="identity", position = "dodge")
 ```
 
+Looking at this barplot, it gives an estimate of how many people have had covid while taking the drug and placebo. For the Gals data it looks like that it's about 51% of those who did not get covid was took the drug. And those who got covid while taking the placebo was more than 60%.
+
+
 ### Numerical Results 
   
 ```{r}
@@ -76,7 +79,10 @@ table1 <- xtabs(~treatment + infected, data=GalsData)
 rowPerc(table1)
 colPerc(table1)
 ```
-  
+
+Our numeric results for our Gals data gives us an exact number of people who got covid and where ok when taking the drug and placebo. It looks that those who were OK happened to be even which meant no majority. While those who got covid, was 67% of those who took the placebo and 33% of those who took the drug. This means that those who took the drug got covid got it one third of the time compared to the placebo.
+
+
 ### Inferntial
 
 ```{r}
@@ -86,6 +92,8 @@ galfish <- fisher.test(table1)
 galfish
 ```
 
+Our Fisher's exact test showed us that the p-value being very small at 2e-16 means that that we can reject the null hypothesis of the vacine being effective for woman or Gals. This also means that our 95 percent interval was between .41 and .58.
+
 
 ```{r}
 Effect<- galfish$p.value/(galfish$p.value+1)
@@ -93,12 +101,17 @@ Effectivenessgal <- galfish$estimate/(galfish$estimate +1)
 print(Effectivenessgal*100)
 ```
 
+Our odds ratio being at 33 means that it is really at 0.33. This also means that those who took the drug would develop covid 33 percent of the time. So if 33 percent of people got covid while taking the drug that means that the vaccine works.
+
+### Low r - High r
+
 ```{r}
 low=(galfish$conf.int[1]/(galfish$conf.int[1]+1))
 hi=galfish$conf.int[2]/(galfish$conf.int[2] +1)
 options(digits=2)
 ```
 
+It looks like that the effectiveness of the vaccine at the highest is 29% and the highest is at 37%. This means that the drug for women or gals works and is effective and should be taken at this effectiveness. Now we
 
 
 ## Guys
@@ -127,6 +140,8 @@ basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment))
 basicCC + geom_bar(stat="identity", position = "dodge")
 ```
 
+For the guys bar plot, it shows that around 55% of those who got covid took the drug which was the majority. Those who were Ok, around 52% took the placebo and was the majority. And the count bar showed us that a very small amount of people that got covid took the placebo and the actual drug.
+
 ### Numerical Results
   
 ```{r}
@@ -134,6 +149,8 @@ table1 <- xtabs(~treatment + infected, data=GuysData)
 rowPerc(table1)
 colPerc(table1)
 ```
+
+Our numerical results show us that 51 percent of people who were Ok took the placebo which meant the other 49 percent was the actual drug. Then looking at those who had covid, 58 percent of those people took the drug which gives us an estiamte that the drug is not effective 
 
 ### Inferntial
  
@@ -144,17 +161,26 @@ guyfish <- fisher.test(table1)
 guyfish
 ```  
  
+ The fisher's exact test showed us that we can reject the null hypothesis since the p-value was a  small number at 6e-04.
+ 
 ```{r}
 Effect<-guyfish$p.value/(guyfish$p.value+1)
 Effectivenessguy <- guyfish$estimate/(guyfish$estimate +1)
 print(Effectivenessguy*100)
 ```
 
+Our odds ratio being at 60 means that there is a 60 percent chance of those who took the vaccine had a chance of getting covid. This is more than 50 percent which means that is the majority.
+
+### Low r - High r
+
 ```{r}
 low=(guyfish$conf.int[1]/(guyfish$conf.int[1]+1))
 hi=guyfish$conf.int[2]/(guyfish$conf.int[2] +1)
 options(digits=2)
 ```  
+
+Our data for guys have should showed us that the vaccine is not effective for those who are considered a man or guy. With this data, it has shown us that the drug or vaccine is not effective for those who are man or guy. Compared to women or gal data, this vaccine is not as effective compared to their data.
+
 
 ## LGBTQ
 
@@ -182,6 +208,8 @@ basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment))
 basicCC + geom_bar(stat="identity", position = "dodge")
 ```
 
+The LGBTQ bar plot has showed us a similar result to guy data. However to those who had covid, more than 60 percent of those took the actual drug and 30 percent took the placebo. Than for those who were OK, those who took the placebo had a slight edge over the those who took the drug.
+
 ### Numerical  
   
 
@@ -191,6 +219,7 @@ rowPerc(table1)
 colPerc(table1)
 ```
 
+Our numerical results gives a better estimate and actual numbers when it comes to those who were okay and got covid. 71 percent of those who took the drug got covid which means 29 percent of people who took the placebo got covid. And that those who were deemed OK, 51 percent of those had taken the placebo.
 
 ### Inferntial
   
@@ -201,12 +230,18 @@ gayfish <- fisher.test(table1)
 gayfish
 ```  
 
+ Our gay fish data gave us a very small p-value at 0.000006 which is a small number. Than for our 95 percent interval, it looks like to be around 1.6 to 1.9. 
  
+### Low r - High r
+
+
 ```{r}
 Effect<-gayfish$p.value/(gayfish$p.value+1)
 Effectivenessgay <- gayfish$estimate/(gayfish$estimate +1)
 print(Effectivenessgay*100)
 ```
+
+Our odds ratio being at 71 means that it is 71 percent more likely someone who is gay will be infected by covid when taking the vaccine. This means that the vaccine or drug that is being taking by someone who considers them self gay has a higher chance of catching covid.
 
 ```{r}
 low=(guyfish$conf.int[1]/(guyfish$conf.int[1]+1))
@@ -241,6 +276,9 @@ basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment))
 basicCC + geom_bar(stat="identity", position = "dodge")
 ```
 
+Our data from the drug-user bar plot shows us that more people who were ok had taken the placebo however more people who took the placebo that got covid was at 65 percent. This means that more people who took the placebo got infected by covid and that those who took the vaccine or drug got covid at 35 percent.
+
+
 ### Numerical Results
   
 ```{r}
@@ -248,6 +286,9 @@ table1 <- xtabs(~treatment + infected, data=DrugUserData)
 rowPerc(table1)
 colPerc(table1)
 ```
+
+Our numerical results gives us an exact percentage of people who got covid and were deemed ok. 67 percent of people who got infected by covid took the placebo, and 33 percent took the vaccine. When looking at those who were deemed OK, 52 percent of those took the placebo and 48 percent took the drug.
+
 
 ### Inferntial
 
@@ -258,6 +299,9 @@ drugfish <- fisher.test(table1)
 drugfish
 ```
 
+Our fisher's exact test having a p-value of 0.002 means that we can reject out null hypothesis since it is a small number.
+ 
+### Low r - High r 
  
 ```{r}
 Effect<-drugfish$p.value/(drugfish$p.value+1)
@@ -265,8 +309,16 @@ Effectivenessyes <- drugfish$estimate/(drugfish$estimate +1)
 print(Effectivenessyes*100)
 ```
 
+Our odds ratio being at 35 means that the drug-users who took the vaccine had a 35 percent chance of getting covid which is the second lowest out of all datas.
+
 ```{r}
 low=(drugfish$conf.int[1]/(drugfish$conf.int[1]+1))
 hi=drugfish$conf.int[2]/(drugfish$conf.int[2] +1)
 options(digits=2)
 ```  
+
+Our low r value is at 0.26 while our high is at 0.45. This means that the lowest chance is 26 percent and the highest chance at 45 percent. Overall this vaccine gives drug-users a lower chance of catching covid compared to other vaccines.
+
+# Conclusion and Disccusion
+
+When looking at the data and understanding that we must see how effective the vaccine or drug is against covid is for four different data groups. The data from FinalData was split into four groups. These groups were, gals, guys, gays, and drug-users. First we did bar plots for each group to show an estimate about the amount of people out of 100 that were OK and who had covid while taking the drug and placebo. After the bar plots, we ran out numerical results which gave us the exact amount people or percentage. Out of all bar plots and numerical results, the best vaccine was the GalsData since most of the people who were infected took the placebo compared to the other datas. Then we ran a fisher exact test which gave small numbers for all data sets. This means that we could reject the null hypothesis that these drugs had differencr effectivness for all sub-groups. Than we ran an effectiveness test for all data which gave us numbers and Gals Data was the smallest chance of getting covid. The highest chance of getting covid was the gay data. Then we did the low-r and high-r test. This gave us an estiamte about what was the lowest and highest chance of getting covid. Overall the Gals, and drug users should take the vaccine while those who were gay and considered a guy should not take the vaccine since it was not effect and curbing covid.
